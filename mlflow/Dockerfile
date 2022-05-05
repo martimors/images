@@ -4,6 +4,7 @@ FROM python:${PYTHON_IMAGE_TAG}
 ARG MLFLOW_VERSION=1.25.1
 RUN pip install \
     --no-cache-dir \
+    --quiet \
     "mlflow[extras]==${MLFLOW_VERSION}" \
     "psycopg2-binary>2.9,<3"
 
