@@ -10,6 +10,16 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        python-image-tag:
+          - 3.10-slim-bullseye
+        mlflow-version:
+          - 1.25.1
+        include:
+          - mlflow-version: 1.25.1
+            python-image-tag: 3.10-slim-bullseye
+            latest: true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -27,6 +37,8 @@ jobs:
           file: ./mlflow/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/mlflow:latest
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME }}/mlflow:${{ matrix.mlflow-version }}-${{ python-image-tag }}
+            ${{ matrix.latest && ${{ secrets.DOCKER_HUB_USERNAME }}/mlflow:latest || }}
           cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/mlflow:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/mlflow:buildcache,mode=max
