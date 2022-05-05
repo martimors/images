@@ -37,6 +37,9 @@ jobs:
           file: ./mlflow/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
+          build-args: |
+            PYTHON_IMAGE_TAG=${{ matrix.python-image-tag }}
+            MLFLOW_VERSION=${{ matrix.mlflow-version }}
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME }}/mlflow:${{ matrix.mlflow-version }}-${{ matrix.python-image-tag }}
           cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/mlflow:buildcache
