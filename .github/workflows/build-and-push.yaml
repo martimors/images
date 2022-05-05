@@ -43,3 +43,10 @@ jobs:
             ${{ secrets.DOCKER_HUB_USERNAME }}/${{ matrix.image }}:${{ matrix.appVersion }}-${{ matrix.fromImageTag }}
           cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ matrix.image }}:buildcache
           cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ matrix.image }}:buildcache,mode=max
+      - name: Docker Hub Description
+        uses: peter-evans/dockerhub-description@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+          repository: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ matrix.image }}
+          readme-filepath: ./${{ matrix.image }}/README.md
