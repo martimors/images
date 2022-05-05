@@ -1,9 +1,15 @@
-ARG MLFLOW_VERSION
+ARG PYTHON_IMAGE_TAG=3.10-slim-bullseye
+FROM python:${PYTHON_IMAGE_TAG}
 
-FROM python:3.10-alpine
+ARG MLFLOW_VERSION=1.25.1
+RUN pip install \
+    --no-cache-dir \
+    "mlflow[extras]==${MLFLOW_VERSION}" \
+    "psycopg2-binary>2.9,<3"
 
-RUN pip install mlflow[extras]==${MLFLOW_VERSION} psycopg2
-
-RUN useradd -u 65534 -g 65534
+# Run as non-root user
+WORKDIR /opt/mlflow
+RUN chown 65534:0 /opt/mlflow
+USER 65534
 
 ENTRYPOINT [ "mlflow", "server" ]
