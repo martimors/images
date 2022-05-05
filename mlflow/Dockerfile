@@ -1,11 +1,12 @@
-ARG PYTHON_IMAGE_TAG=3.10-slim-bullseye
-FROM python:${PYTHON_IMAGE_TAG}
+ARG FROM_IMAGE=python
+ARG FROM_IMAGE_TAG=3.10-slim-bullseye
+FROM ${FROM_IMAGE}:${FROM_IMAGE_TAG}}
 
-ARG MLFLOW_VERSION=1.25.1
+ARG APP_VERSION=1.25.1
 RUN pip install \
     --no-cache-dir \
     --quiet \
-    "mlflow[extras]==${MLFLOW_VERSION}" \
+    "mlflow[extras]==${APP_VERSION}" \
     "psycopg2-binary>2.9,<3"
 
 # Run as non-root user

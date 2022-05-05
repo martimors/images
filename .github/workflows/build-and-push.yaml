@@ -12,10 +12,11 @@ jobs:
   build:
     strategy:
       matrix:
-        python-image-tag:
-          - 3.10-slim-bullseye
-        mlflow-version:
-          - 1.25.1
+        include:
+          - image: mlflow
+            fromImage: python
+            fromImageTag: 3.10-slim-bullseye
+            appVersion: 1.25.1
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,13 +31,15 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          file: ./mlflow/Dockerfile
+          file: ./${{ matrix.image }}/Dockerfile
+          context: ./${{ matrix.image }}
           builder: ${{ steps.buildx.outputs.name }}
           push: true
           build-args: |
-            PYTHON_IMAGE_TAG=${{ matrix.python-image-tag }}
-            MLFLOW_VERSION=${{ matrix.mlflow-version }}
+            FROM_IMAGE=${{ matrix.fromImage }}
+            FROM_IMAGE_TAG=${{ matrix.fromImageTag }}
+            APP_VERSION=${{ matrix.appVersion }}
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME }}/mlflow:${{ matrix.mlflow-version }}-${{ matrix.python-image-tag }}
-          cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/mlflow:buildcache
-          cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/mlflow:buildcache,mode=max
+            ${{ secrets.DOCKER_HUB_USERNAME }}/${{ matrix.image }}:${{ matrix.appVersion }}-${{ matrix.fromImageTag }}
+          cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ matrix.image }}:buildcache
+          cache-to: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/${{ matrix.image }}:buildcache,mode=max
