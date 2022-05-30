@@ -18,6 +18,10 @@ jobs:
             fromImage: python
             fromImageTag: 3.10-slim-bullseye
             appVersion: 1.26.0
+          - image: mlflow
+            fromImage: python
+            fromImageTag: 3.10-slim-bullseye
+            appVersion: 1.26.1
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
