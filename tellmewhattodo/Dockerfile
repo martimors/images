@@ -8,7 +8,10 @@ RUN pip install \
     --quiet \
     "tellmewhattodo==${APP_VERSION}"
 
+
 # Not good practice to be root
+WORKDIR /tellme
+RUN mkdir -p .whattodo/ && chown -R 1000:1000 .whattodo/
 USER 1000
 
 ENTRYPOINT [ "tellmewhattodo" ]

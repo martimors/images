@@ -33,7 +33,7 @@ jobs:
           - image: tellmewhattodo
             fromImage: python
             fromImageTag: 3.10-slim-bullseye
-            appVersion: 2.1.0
+            appVersion: 2.1.1
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
