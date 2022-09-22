@@ -13,14 +13,6 @@ jobs:
           - image: mlflow
             fromImage: python
             fromImageTag: 3.10-slim-bullseye
-            appVersion: 1.25.1
-          - image: mlflow
-            fromImage: python
-            fromImageTag: 3.10-slim-bullseye
-            appVersion: 1.26.0
-          - image: mlflow
-            fromImage: python
-            fromImageTag: 3.10-slim-bullseye
             appVersion: 1.26.1
           - image: mlflow
             fromImage: python
@@ -30,6 +22,10 @@ jobs:
             fromImage: python
             fromImageTag: 3.10-slim-bullseye
             appVersion: 1.28.0
+          - image: mlflow
+            fromImage: python
+            fromImageTag: 3.10-slim-bullseye
+            appVersion: 1.29.0
           - image: tellmewhattodo
             fromImage: python
             fromImageTag: 3.10-slim-bullseye
